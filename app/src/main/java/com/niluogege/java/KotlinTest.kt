@@ -17,12 +17,34 @@ var totlePeoples = intArrayOf(20, 50, 80, 100, 150, 200, 300, 500, 800, 1000, 15
 //同时管看人数（峰值人数） / 人
 var maxPeoples = intArrayOf(5, 10, 15, 20, 25, 30, 50, 80, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000)
 
+//流量包 /gb
+var liuLiangBaos = intArrayOf(100, 500, 1000, 5000, 10000, 50000, 200000, 1000000)
+
 
 fun main() {
 //    流量计费
 //    liuliangjifei()
 //    峰值计费
-    fengZhiJiFei()
+//    fengZhiJiFei()
+//    流量包
+    liuLiangBao()
+}
+
+fun liuLiangBao() {
+    val df = DecimalFormat(".00")
+    for (gb in liuLiangBaos) {
+//        var price=getTXLiuLiangBaoJieti(liuLiangBao)
+
+        //腾讯
+//        val price = gb * getTXLiuLiangJieti(gb)
+        //七牛
+//            val price = gb * getQNLiuLiangJieti(gb)
+        //金山
+        val price = gb * getJSLiuLiangJieti(gb)
+
+        println("${df.format(price)}");
+    }
+
 }
 
 
@@ -177,5 +199,23 @@ fun getJSKuanDaiJieti(mb: Int): Float {
         in 500..5000 -> return 0.56f
         in 5000..20000 -> return 0.52f
         else -> return 0.52f
+    }
+}
+
+
+/**
+ * 腾讯流量包计费
+ */
+fun getTXLiuLiangBaoJieti(gb: Int): Int {
+    return when (gb) {
+        100 -> 25
+        500 -> 118
+        1000 -> 236
+        5000 -> 1086
+        10000 -> 2172
+        50000 -> 8972
+        200000 -> 30198
+        1000000 -> 149589
+        else -> 0
     }
 }
