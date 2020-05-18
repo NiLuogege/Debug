@@ -27,7 +27,10 @@ fun main() {
 //    峰值计费
 //    fengZhiJiFei()
 //    流量包
-    liuLiangBao()
+//    liuLiangBao()
+
+    println("草草草 aaaa")
+
 }
 
 fun liuLiangBao() {

@@ -34,3 +34,8 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+
+task demo() {
+    println("神警报 aaaa")
+}
