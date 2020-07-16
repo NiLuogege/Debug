@@ -17,7 +17,7 @@ class DemoModule {
 
     @Provides
     @Singleton
-    fun provideApplication():Application{
+    fun provideApplication(): Application {
         return application
     }
 
@@ -26,5 +26,10 @@ class DemoModule {
     @Singleton
     fun provideContext(): Context {
         return application
+    }
+
+    @Provides
+    fun provideCar(): Car {
+        return Car()
     }
 }

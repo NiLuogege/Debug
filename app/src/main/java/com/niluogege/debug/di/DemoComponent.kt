@@ -1,10 +1,10 @@
 package com.niluogege.debug.di
 
-import android.app.Application
+import com.niluogege.debug.dagger.DaggerActivity
 import dagger.Component
 
 @Component(modules = [DemoModule::class])
 interface DemoComponent {
 
-    fun inject(application: Application)
+    fun inject(daggerActivity: DaggerActivity)
 }
