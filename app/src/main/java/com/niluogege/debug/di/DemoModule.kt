@@ -21,15 +21,13 @@ class DemoModule {
         return application
     }
 
-
     @Provides
-    @Singleton
-    fun provideContext(): Context {
-        return application
+    fun provideSpeak():Speaker{
+        return Speaker()
     }
 
     @Provides
     fun provideCar(): Car {
-        return Car()
+        return Car(provideSpeak())
     }
 }

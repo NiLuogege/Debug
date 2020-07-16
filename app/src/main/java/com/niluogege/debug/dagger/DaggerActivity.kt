@@ -17,7 +17,7 @@ class DaggerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val component = DaggerDemoComponent.builder().build()
+        val component = DaggerDemoComponent.builder().demoModule(DemoModule(application)).build()
         component.inject(this)
 
         val binding = DataBindingUtil.setContentView<ActivityDaggerBinding>(this, R.layout.activity_dagger)
@@ -27,6 +27,7 @@ class DaggerActivity : AppCompatActivity() {
 
         binding.btn.setOnClickListener {
             car.print()
+            car.speak()
         }
     }
 }
