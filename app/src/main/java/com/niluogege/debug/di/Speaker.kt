@@ -2,10 +2,10 @@ package com.niluogege.debug.di
 
 import javax.inject.Inject
 
-class Speaker @Inject constructor() {
+class Speaker @Inject constructor(var str:String) {
 
     fun speak(){
-        println("speak")
+        println("speak -->${str}")
     }
 
 }

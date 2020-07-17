@@ -11,15 +11,19 @@ import com.niluogege.debug.di.DaggerDemoComponent
 import com.niluogege.debug.di.DemoModule
 import dagger.Lazy
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Provider
 
 class DaggerActivity : AppCompatActivity() {
+    @Named("Car2")
     @Inject
     lateinit var car:Lazy<Car>
 
+    @Named("Car1")
     @Inject
     lateinit var car2:Provider<Car>
 
+    @Named("Car1")
     @Inject
     lateinit var car3:Provider<Car>
 
@@ -37,6 +41,8 @@ class DaggerActivity : AppCompatActivity() {
             val get = car.get()
             get.print()
             get.speak()
+
+            car2.get().speak()
 
             println("1= ${car.get()} 2= ${car2.get()} 3= ${car3.get()}")
         }
