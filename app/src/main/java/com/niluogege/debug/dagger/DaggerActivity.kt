@@ -11,10 +11,17 @@ import com.niluogege.debug.di.DaggerDemoComponent
 import com.niluogege.debug.di.DemoModule
 import dagger.Lazy
 import javax.inject.Inject
+import javax.inject.Provider
 
 class DaggerActivity : AppCompatActivity() {
     @Inject
     lateinit var car:Lazy<Car>
+
+    @Inject
+    lateinit var car2:Provider<Car>
+
+    @Inject
+    lateinit var car3:Provider<Car>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +37,8 @@ class DaggerActivity : AppCompatActivity() {
             val get = car.get()
             get.print()
             get.speak()
+
+            println("1= ${car.get()} 2= ${car2.get()} 3= ${car3.get()}")
         }
     }
 }
