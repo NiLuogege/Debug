@@ -9,11 +9,12 @@ import com.niluogege.debug.databinding.ActivityDaggerBinding
 import com.niluogege.debug.di.Car
 import com.niluogege.debug.di.DaggerDemoComponent
 import com.niluogege.debug.di.DemoModule
+import dagger.Lazy
 import javax.inject.Inject
 
 class DaggerActivity : AppCompatActivity() {
     @Inject
-    lateinit var car: Car
+    lateinit var car:Lazy<Car>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +27,9 @@ class DaggerActivity : AppCompatActivity() {
         }
 
         binding.btn.setOnClickListener {
-            car.print()
-            car.speak()
+            val get = car.get()
+            get.print()
+            get.speak()
         }
     }
 }

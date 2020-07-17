@@ -28,6 +28,7 @@ class DemoModule {
 
     @Provides
     fun provideCar(): Car {
+        println("provideCar")
         return Car(provideSpeak())
     }
 }
