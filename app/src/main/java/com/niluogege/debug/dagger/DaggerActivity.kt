@@ -6,9 +6,7 @@ import androidx.databinding.DataBindingUtil
 import com.niluogege.debug.App
 import com.niluogege.debug.R
 import com.niluogege.debug.databinding.ActivityDaggerBinding
-import com.niluogege.debug.di.Car
-import com.niluogege.debug.di.DaggerDemoComponent
-import com.niluogege.debug.di.DemoModule
+import com.niluogege.debug.di.*
 import dagger.Lazy
 import javax.inject.Inject
 import javax.inject.Named
@@ -30,6 +28,15 @@ class DaggerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        val manComp = DaggerManComponent.builder().build()
+        val firentComp = DaggerFirendComponent.builder().manComponent(manComp).build()
+
+        val man = Man()
+        val friend = Friend()
+        manComp.inject(man)
+        firentComp.inject(friend)
+
         App.build.inject(this)
 
         val binding = DataBindingUtil.setContentView<ActivityDaggerBinding>(this, R.layout.activity_dagger)
@@ -38,13 +45,16 @@ class DaggerActivity : AppCompatActivity() {
         }
 
         binding.btn.setOnClickListener {
-            val get = car.get()
-            get.print()
-            get.speak()
+//            val get = car.get()
+//            get.print()
+//            get.speak()
+//
+//            car2.get().speak()
+//
+//            println("1= ${car.get()} 2= ${car2.get()} 3= ${car3.get()}")
 
-            car2.get().speak()
-
-            println("1= ${car.get()} 2= ${car2.get()} 3= ${car3.get()}")
+            man.car.speak()
+            friend.car.speak()
         }
     }
 }
