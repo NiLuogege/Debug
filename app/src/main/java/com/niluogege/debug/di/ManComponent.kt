@@ -8,6 +8,6 @@ interface ManComponent {
 
     fun inject(man: Man)
 
-    fun getCar():Car
+    fun sonComponent():SonComponent.Builder
 
 }

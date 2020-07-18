@@ -29,13 +29,12 @@ class DaggerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-        val manComp = DaggerManComponent.builder().build()
-        val firentComp = DaggerFirendComponent.builder().manComponent(manComp).build()
+        val manC = DaggerManComponent.builder().build()
+        val sonComponent = manC.sonComponent().build()
+        val son=Son()
+        sonComponent.inject(son)
 
-        val man = Man()
-        val friend = Friend()
-        manComp.inject(man)
-        firentComp.inject(friend)
+
 
         App.build.inject(this)
 
@@ -45,16 +44,10 @@ class DaggerActivity : AppCompatActivity() {
         }
 
         binding.btn.setOnClickListener {
-//            val get = car.get()
-//            get.print()
-//            get.speak()
-//
-//            car2.get().speak()
-//
-//            println("1= ${car.get()} 2= ${car2.get()} 3= ${car3.get()}")
 
-            man.car.speak()
-            friend.car.speak()
+            son.bike.go()
+            son.car.speak()
+
         }
     }
 }
