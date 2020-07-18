@@ -29,8 +29,8 @@ class DaggerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val component = DaggerDemoComponent.builder().demoModule(DemoModule(application)).build()
-        component.inject(this)
+
+        App.build.inject(this)
 
         val binding = DataBindingUtil.setContentView<ActivityDaggerBinding>(this, R.layout.activity_dagger)
 
