@@ -2,7 +2,9 @@ package com.niluogege.debug.di
 
 import com.niluogege.debug.dagger.DaggerActivity
 import dagger.Component
+import javax.inject.Singleton
 
+@Singleton
 @Component(modules = [DemoModule::class])
 interface DemoComponent {
 

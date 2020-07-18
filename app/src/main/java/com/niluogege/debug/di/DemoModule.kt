@@ -27,6 +27,7 @@ class DemoModule {
         return Speaker(str)
     }
 
+    @Singleton
     @Named("Car1")
     @Provides
     fun provideCar(): Car {
