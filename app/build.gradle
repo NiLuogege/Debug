@@ -48,6 +48,8 @@ dependencies {
     //dagger
     api 'com.google.dagger:dagger-android:2.28.1'
     kapt 'com.google.dagger:dagger-compiler:2.28.1'
+
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-alpha1'
 }
 repositories {
     mavenCentral()
