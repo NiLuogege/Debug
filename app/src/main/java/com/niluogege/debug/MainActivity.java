@@ -39,4 +39,8 @@ public class MainActivity extends AppCompatActivity {
                 + " AppBaseContext= " + AppBaseContext + " activityBaseContext= " + activityBaseContext);
 
     }
+
+    public static int printInt(){
+        return 3;
+    }
 }
