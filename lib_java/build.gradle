@@ -3,6 +3,10 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    //检测对象大小
+    // https://mvnrepository.com/artifact/org.openjdk.jol/jol-core
+    implementation group: 'org.openjdk.jol', name: 'jol-core', version: '0.11'
+
 }
 
 sourceCompatibility = "8"
