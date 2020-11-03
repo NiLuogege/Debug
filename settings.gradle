@@ -1,3 +1,4 @@
 include ':app'
 rootProject.name='Debug'
 include ':lib_java'
+include ':module2'

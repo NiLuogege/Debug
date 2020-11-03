@@ -44,29 +44,21 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
     // Optional -- Mockito framework（可选，用于模拟一些依赖对象，以达到隔离依赖的效果）
     testImplementation 'org.mockito:mockito-core:2.19.0'
-
-
-    implementation "androidx.core:core-ktx:+"
+    implementation 'androidx.core:core-ktx:+'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha05'
-
     //dagger
     api 'com.google.dagger:dagger-android:2.28.1'
     kapt 'com.google.dagger:dagger-compiler:2.28.1'
-
     implementation 'androidx.recyclerview:recyclerview:1.0.0-alpha1'
-
-
-
     //paging
     def paging_version = "3.0.0-alpha03"
     implementation "androidx.paging:paging-runtime:$paging_version"
