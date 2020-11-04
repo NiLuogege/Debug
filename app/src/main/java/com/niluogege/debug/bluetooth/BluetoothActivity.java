@@ -345,12 +345,17 @@ public class BluetoothActivity extends AppCompatActivity {
                     // Read from the InputStream.
                     numBytes = mmInStream.read(mmBuffer);
                     // Send the obtained bytes to the UI activity.
-                    Message readMsg = handler.obtainMessage(
-                            MessageConstants.MESSAGE_READ, numBytes, -1,
-                            mmBuffer);
-                    readMsg.sendToTarget();
-                    tvText.setText("收到消息= " + new String(mmBuffer));
+//                    Message readMsg = handler.obtainMessage(
+//                            MessageConstants.MESSAGE_READ, numBytes, -1,
+//                            mmBuffer);
+//                    readMsg.sendToTarget();
                     Log.e(TAG, "收到消息= " + new String(mmBuffer));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tvText.setText("收到消息= " + new String(mmBuffer));
+                        }
+                    });
                 } catch (IOException e) {
                     Log.d(TAG, "Input stream was disconnected", e);
                     break;
