@@ -349,6 +349,7 @@ public class BluetoothActivity extends AppCompatActivity {
                             MessageConstants.MESSAGE_READ, numBytes, -1,
                             mmBuffer);
                     readMsg.sendToTarget();
+                    tvText.setText("收到消息= " + new String(mmBuffer));
                     Log.e(TAG, "收到消息= " + new String(mmBuffer));
                 } catch (IOException e) {
                     Log.d(TAG, "Input stream was disconnected", e);
@@ -362,6 +363,8 @@ public class BluetoothActivity extends AppCompatActivity {
             Log.e(TAG, "写入信息");
 
             try {
+                tvText.setText("写入信息= " + new String(bytes));
+
                 mmOutStream.write(bytes);
 
                 // Share the sent message with the UI activity.
