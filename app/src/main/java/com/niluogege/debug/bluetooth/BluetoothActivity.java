@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.ParcelUuid;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -23,14 +24,18 @@ import com.niluogege.debug.R;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.UUID;
+import java.util.function.LongUnaryOperator;
 
 
 public class BluetoothActivity extends AppCompatActivity {
 
     private String TAG = "TAG";
     private String NAME = "TAG";
-    private UUID MY_UUID = UUID.randomUUID();
+    //    private UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");//是我的手机的 uuid
+    private UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");//是我的手机的 uuid
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -42,12 +47,30 @@ public class BluetoothActivity extends AppCompatActivity {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 String deviceName = device.getName();
                 String deviceHardwareAddress = device.getAddress(); // MAC address
-                String uuid = device.getUuids()[0].getUuid().toString();
+//                String uuid = device.getUuids()[0].getUuid().toString();
 
-                Log.e(TAG, "deviceName=" + deviceName + " deviceHardwareAddress= " + deviceHardwareAddress + " uuid= " + uuid);
+                Log.e(TAG, "deviceName=" + deviceName + " deviceHardwareAddress= " + deviceHardwareAddress);
 
-                if ("B8:27:EB:C3:93:5E".equals(deviceHardwareAddress)) {
+                if ("B8:27:EB:C3:93:5E".equals(deviceHardwareAddress)) {//目标蓝牙
+//                if ("54:0D:F9:97:B4:02".equals(deviceHardwareAddress)) {//pad
+//                if ("94:65:2D:32:53:96".equals(deviceHardwareAddress)) {//我的手机
                     tvText.setText("找到了 =" + deviceName);
+
+                    ParcelUuid[] uuids = device.getUuids();
+                    if (uuids != null) {
+                        for (ParcelUuid uuid : uuids) {
+                            Log.e(TAG, "uuid--" + uuid);
+                        }
+                    }
+
+//                    BluetoothConnector bluetoothConnector = new BluetoothConnector(device,false,bluetoothAdapter, Collections.singletonList(MY_UUID));
+//                    try {
+//                        BluetoothConnector.BluetoothSocketWrapper connect = bluetoothConnector.connect();
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
                     connectThread = new ConnectThread(device);
                     connectThread.start();
                 }
@@ -72,7 +95,11 @@ public class BluetoothActivity extends AppCompatActivity {
         btnWrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                connectedThread.write("鸡儿蛋疼".getBytes());
+                if (connectedThread != null) {
+                    connectedThread.write("鸡儿蛋疼".getBytes());
+                } else {
+                    Log.e(TAG, "connectedThread==null");
+                }
             }
         });
 
@@ -80,8 +107,12 @@ public class BluetoothActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                connectThread.cancel();
-                connectedThread.cancel();
+                if (connectThread != null) {
+                    connectThread.cancel();
+                }
+                if (connectedThread != null) {
+                    connectedThread.cancel();
+                }
             }
         });
 
@@ -100,6 +131,7 @@ public class BluetoothActivity extends AppCompatActivity {
         registerReceiver(receiver, filter);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
 
     }
 
@@ -174,7 +206,7 @@ public class BluetoothActivity extends AppCompatActivity {
      * 客户端连接 服务端线程
      */
     private class ConnectThread extends Thread {
-        private final BluetoothSocket mmSocket;
+        private BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
 
         public ConnectThread(BluetoothDevice device) {
@@ -202,13 +234,40 @@ public class BluetoothActivity extends AppCompatActivity {
                 // until it succeeds or throws an exception.
                 Log.e(TAG, "连接上了");
                 mmSocket.connect();
-            } catch (IOException connectException) {
-                // Unable to connect; close the socket and return.
-                try {
-                    mmSocket.close();
-                } catch (IOException closeException) {
-                    Log.e(TAG, "Could not close the client socket", closeException);
+                ParcelUuid[] uuids = mmSocket.getRemoteDevice().getUuids();
+                for (ParcelUuid uuid : uuids) {
+                    Log.e(TAG, "uuid--" + uuid);
                 }
+            } catch (IOException connectException) {
+
+                try {
+                    Class<?> clazz = mmSocket.getRemoteDevice().getClass();
+                    Class<?>[] paramTypes = new Class<?>[]{Integer.TYPE};
+
+                    Method m = clazz.getMethod("createRfcommSocket", paramTypes);
+                    Object[] params = new Object[]{Integer.valueOf(1)};
+
+                    mmSocket = (BluetoothSocket) m.invoke(mmSocket.getRemoteDevice(), params);
+                    mmSocket.connect();
+                } catch (Exception e) {
+                    try {
+                        mmSocket.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    e.printStackTrace();
+                }
+
+
+                // Unable to connect; close the socket and return.
+//                try {
+//                    mmSocket.close();
+//                } catch (IOException closeException) {
+//                    Log.e(TAG, "Could not close the client socket", closeException);
+//                }
+
+                connectException.printStackTrace();
+
                 return;
             }
 
@@ -227,6 +286,7 @@ public class BluetoothActivity extends AppCompatActivity {
         }
 
         private void manageMyConnectedSocket(BluetoothSocket socket) {
+            Log.e(TAG, "连接上了2");
             connectedThread = new ConnectedThread(socket);
             connectedThread.start();
         }
@@ -289,6 +349,7 @@ public class BluetoothActivity extends AppCompatActivity {
                             MessageConstants.MESSAGE_READ, numBytes, -1,
                             mmBuffer);
                     readMsg.sendToTarget();
+                    Log.e(TAG, "收到消息= " + new String(mmBuffer));
                 } catch (IOException e) {
                     Log.d(TAG, "Input stream was disconnected", e);
                     break;
@@ -304,9 +365,9 @@ public class BluetoothActivity extends AppCompatActivity {
                 mmOutStream.write(bytes);
 
                 // Share the sent message with the UI activity.
-                Message writtenMsg = handler.obtainMessage(
-                        MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
-                writtenMsg.sendToTarget();
+//                Message writtenMsg = handler.obtainMessage(
+//                        MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
+//                writtenMsg.sendToTarget();
             } catch (IOException e) {
                 Log.e(TAG, "Error occurred when sending data", e);
 
