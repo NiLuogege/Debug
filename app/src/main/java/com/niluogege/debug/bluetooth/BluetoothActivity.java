@@ -34,8 +34,8 @@ public class BluetoothActivity extends AppCompatActivity {
 
     private String TAG = "TAG";
     private String NAME = "TAG";
-    //    private UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");//是我的手机的 uuid
-    private UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");//是我的手机的 uuid
+    //    private UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");//是我的手机的 uuid(看起来 也是默认的)
+    private UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");//默认uuid
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
 
