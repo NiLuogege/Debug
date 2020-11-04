@@ -10,6 +10,19 @@
         android:text="开始搜索"
         android:layout_height="50dp"/>
 
+
+    <Button
+        android:id="@+id/btn_write"
+        android:layout_width="match_parent"
+        android:text="写入信息"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="match_parent"
+        android:text="关闭线程"
+        android:layout_height="50dp"/>
+
     <TextView
         android:id="@+id/tv_text"
         android:layout_width="match_parent"
