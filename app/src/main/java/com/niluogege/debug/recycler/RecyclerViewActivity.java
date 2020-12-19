@@ -1,4 +1,4 @@
-package com.niluogege.debug;
+package com.niluogege.debug.recycler;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +10,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.niluogege.debug.R;
 
 public class RecyclerViewActivity extends AppCompatActivity {
 
@@ -24,6 +27,11 @@ public class RecyclerViewActivity extends AppCompatActivity {
         RecyclerView lv = findViewById(R.id.lv);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         lv.setLayoutManager(llm);
+
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new DragAndSwipeCallback());
+        itemTouchHelper.attachToRecyclerView(lv);
+
         RvAdapter rvAdapter = new RvAdapter();
         lv.setAdapter(rvAdapter);
 
