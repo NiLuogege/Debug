@@ -3,6 +3,8 @@
 buildscript {
     ext.kotlin_version = '1.4.20'
     repositories {
+        maven { url 'http://47.110.141.101:8081/repository/xhj/' }
+        maven { url 'http://47.110.141.101:8081/repository/xhjV2/' }
         google()
         jcenter()
         
@@ -18,9 +20,8 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url 'http://47.110.141.101:8081/repository/xhj/'
-        }
+        maven { url 'http://47.110.141.101:8081/repository/xhj/' }
+        maven { url 'http://47.110.141.101:8081/repository/xhjV2/' }
         google()
         jcenter()
         
